@@ -38,27 +38,26 @@ The result is advisory in this local MVP, but the workflow is real: GitHub webho
 - Fixture repository verification for indexing, embeddings, retrieval, and analysis.
 - Diagnostic commands for webhooks, queue state, analysis runs, ports, and GitHub App setup.
 
-## Live Proof
+## Portfolio Evidence
 
-This repository has been verified end-to-end as a real GitHub App against `manishsoni-dev/ArchGuard`, with a public Replit API and Vercel demo UI.
+The committed Vercel source is a static portfolio evidence UI. The former hosted backend is offline, so the source
+does not make runtime API requests or present an API as live. The hosted Vercel URL below currently serves a
+pre-change deployment and must not be treated as evidence for this commit until a fresh deployment is verified.
 
-Live demo:
-
-- Replit API: [https://arch-guard-1--manishsoni-dev.replit.app](https://arch-guard-1--manishsoni-dev.replit.app)
-- Vercel UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
-- Proof pack: [docs/live-demo-proof.md](docs/live-demo-proof.md)
+- Hosted evidence URL (currently pre-change): [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
+- Historical proof pack: [docs/live-demo-proof.md](docs/live-demo-proof.md)
 - LinkedIn summary: [docs/linkedin-project-summary.md](docs/linkedin-project-summary.md)
 - Portfolio card copy: [docs/portfolio-card.md](docs/portfolio-card.md)
 
 GitHub Check Run proof:
 
-- PR #8: `FIT`, merged after the live Replit and Vercel demo passed verification.
-- PR #1: `DRIFT_RISK` for a frontend file importing the database layer directly.
+- PR #8: historical `FIT` Check Run evidence from the former hosted-demo verification.
+- PR #1: historical `DRIFT_RISK` evidence for a frontend file importing the database layer directly.
 
 Screenshots:
 
-- [Replit API root](docs/screenshots/replit-api-root.png)
-- [Vercel demo UI](docs/screenshots/vercel-demo-ui.png)
+- [Historical Replit API root](docs/screenshots/replit-api-root.png)
+- [Historical Vercel demo UI](docs/screenshots/vercel-demo-ui.png)
 - [PR #8 FIT proof](docs/screenshots/pr-8-fit.png)
 - [PR #1 DRIFT_RISK proof](docs/screenshots/pr-1-drift-risk.png)
 
@@ -90,7 +89,6 @@ ArchGuard can be deployed as two Node.js processes: an API server and a BullMQ w
 Deployment assets:
 
 - [docs/deployment.md](docs/deployment.md)
-- [docs/vercel-replit-live-demo.md](docs/vercel-replit-live-demo.md)
 - [docs/live-demo-proof.md](docs/live-demo-proof.md)
 - [docs/linkedin-project-summary.md](docs/linkedin-project-summary.md)
 - [docs/portfolio-card.md](docs/portfolio-card.md)
@@ -103,13 +101,11 @@ Deployment assets:
 
 Useful deployment checks:
 
-Current public demo:
+Use the commands below only when operating a newly configured API and worker deployment. They do not establish that a
+public demo backend is currently running.
 
-```bash
-pnpm demo:check -- apiUrl=https://arch-guard-1--manishsoni-dev.replit.app -- webUrl=https://demo-web-delta-five.vercel.app
-```
-
-Do not run commands with literal placeholders such as `THE_REAL_API_SERVICE_URL`, `YOUR-STABLE-DOMAIN`, `YOUR-DEPLOYED-DOMAIN`, `YOUR-REPLIT-API-URL`, or `YOUR-VERCEL-URL`. Copy the exact public domain from the Railway API service, Replit, or Vercel.
+Do not run commands with literal placeholders such as `THE_REAL_API_SERVICE_URL`, `YOUR-STABLE-DOMAIN`,
+`YOUR-DEPLOYED-DOMAIN`, `YOUR-HOSTED-API-URL`, or `YOUR-VERCEL-URL`.
 
 ```bash
 pnpm deployment:checklist

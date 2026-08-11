@@ -32,8 +32,8 @@ const argsSchema = z.object({
 });
 
 const demoCheckExamples = [
-  "pnpm demo:check -- apiUrl=https://your-replit-api.example",
-  "pnpm demo:check -- apiUrl=https://your-replit-api.example webUrl=https://your-vercel-demo.example"
+  "pnpm demo:check -- apiUrl=https://your-hosted-api.example",
+  "pnpm demo:check -- apiUrl=https://your-hosted-api.example webUrl=https://your-vercel-demo.example"
 ];
 
 const apiChecks = [

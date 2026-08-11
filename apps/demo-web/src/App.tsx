@@ -1,78 +1,38 @@
-import { useEffect, useMemo, useState } from "react";
 import {
-  Activity,
-  AlertTriangle,
   ArrowRight,
-  Boxes,
   CheckCircle2,
-  Clock3,
   ExternalLink,
   FileText,
   GitPullRequest,
   Github,
-  RefreshCw,
-  Server,
   ShieldCheck
 } from "lucide-react";
 
-type CheckState = "idle" | "loading" | "ok" | "warning" | "error";
-
-type EndpointResult = {
-  label: string;
-  path: string;
-  state: CheckState;
-  statusCode?: number;
-  detail: string;
-  checkedAt?: Date;
-};
-
 type ProofExample = {
   pr: number;
-  verdict: "FIT" | "DRIFT_RISK" | "INSUFFICIENT_EVIDENCE";
-  url: string | null;
+  verdict: "FIT" | "DRIFT_RISK";
+  url: string;
   summary: string;
 };
 
-type DemoProof = {
-  repositoryUrl: string | null;
-  examples: ProofExample[];
-};
-
-const publicApiUrl = "https://arch-guard-1--manishsoni-dev.replit.app";
 const repositoryUrl = "https://github.com/manishsoni-dev/ArchGuard";
 const docsUrl = "https://github.com/manishsoni-dev/ArchGuard/blob/main/docs/live-demo-proof.md";
 const liveDemoName = "ArchGuard.vercel.app";
 
-const proofUrls = {
-  drift: "https://github.com/manishsoni-dev/ArchGuard/pull/1",
-  fit: "https://github.com/manishsoni-dev/ArchGuard/pull/8"
+const proofExamples: { drift: ProofExample; fit: ProofExample } = {
+  drift: {
+    pr: 1,
+    verdict: "DRIFT_RISK",
+    url: "https://github.com/manishsoni-dev/ArchGuard/pull/1",
+    summary: "Historical GitHub Check Run evidence of a frontend-to-database boundary violation."
+  },
+  fit: {
+    pr: 8,
+    verdict: "FIT",
+    url: "https://github.com/manishsoni-dev/ArchGuard/pull/8",
+    summary: "Historical GitHub Check Run evidence of a FIT verdict from the former demo rollout."
+  }
 };
-
-const fallbackDriftExample: ProofExample = {
-  pr: 1,
-  verdict: "DRIFT_RISK",
-  url: proofUrls.drift,
-  summary: "A frontend-to-database boundary violation caught as architecture drift."
-};
-
-const fallbackFitExample: ProofExample = {
-  pr: 8,
-  verdict: "FIT",
-  url: proofUrls.fit,
-  summary: "A valid live demo verification change confirmed as architecture-fit."
-};
-
-const fallbackProof: DemoProof = {
-  repositoryUrl,
-  examples: [fallbackDriftExample, fallbackFitExample]
-};
-
-const endpointChecks = [
-  { label: "Health", path: "/health" },
-  { label: "Readiness", path: "/ready" },
-  { label: "Version", path: "/version" },
-  { label: "Demo proof", path: "/demo/proof" }
-];
 
 const architectureFlow = [
   { label: "GitHub PR", detail: "Signed pull request event" },
@@ -83,52 +43,7 @@ const architectureFlow = [
 ];
 
 function App() {
-  const apiUrl = normalizeApiUrl(import.meta.env.VITE_ARCHGUARD_API_URL) || publicApiUrl;
-  const [results, setResults] = useState<EndpointResult[]>(() =>
-    endpointChecks.map((endpoint) => ({
-      ...endpoint,
-      state: apiUrl ? "idle" : "warning",
-      detail: apiUrl ? "Waiting for first check" : "API URL is not configured"
-    }))
-  );
-  const [proof, setProof] = useState<DemoProof>(fallbackProof);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const resolvedRepoUrl = useMemo(() => proof.repositoryUrl ?? repositoryUrl, [proof.repositoryUrl]);
-
-  async function refresh() {
-    if (!apiUrl) return;
-
-    setIsRefreshing(true);
-    setResults((current) =>
-      current.map((result) => ({ ...result, state: "loading", detail: "Checking live API" }))
-    );
-
-    const checkedAt = new Date();
-    const nextResults = await Promise.all(
-      endpointChecks.map((endpoint) => checkEndpoint(apiUrl, endpoint, checkedAt))
-    );
-    setResults(nextResults);
-
-    const proofResult = await fetchJson<DemoProof>(apiUrl, "/demo/proof");
-    if (proofResult.ok) {
-      setProof({
-        repositoryUrl: proofResult.data.repositoryUrl ?? repositoryUrl,
-        examples: proofResult.data.examples.map(withKnownProofUrl)
-      });
-    } else {
-      setProof(fallbackProof);
-    }
-
-    setIsRefreshing(false);
-  }
-
-  useEffect(() => {
-    void refresh();
-  }, [apiUrl]);
-
-  const driftExample = proof.examples.find((example) => example.verdict === "DRIFT_RISK") ?? fallbackDriftExample;
-  const fitExample = proof.examples.find((example) => example.verdict === "FIT") ?? fallbackFitExample;
+  const { drift: driftExample, fit: fitExample } = proofExamples;
 
   return (
     <>
@@ -144,21 +59,21 @@ function App() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#overview">Overview</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="#proof">Proof</a>
+          <a href="#how-it-works">Architecture</a>
+          <a href="#proof">Historical proof</a>
           <a href={docsUrl} target="_blank" rel="noreferrer">
-            Docs
+            Evidence notes
           </a>
-          <a href={resolvedRepoUrl} target="_blank" rel="noreferrer">
+          <a href={repositoryUrl} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </nav>
         <div className="navActions">
           <span className="statusPill">
             <span aria-hidden="true" />
-            All systems operational
+            Static evidence UI
           </span>
-          <a className="navButton" href={resolvedRepoUrl} target="_blank" rel="noreferrer">
+          <a className="navButton" href={repositoryUrl} target="_blank" rel="noreferrer">
             <Github aria-hidden="true" size={16} />
             GitHub
           </a>
@@ -170,22 +85,22 @@ function App() {
           <div className="heroCopy">
             <div className="eyebrow">
               <ShieldCheck aria-hidden="true" size={16} />
-              AI-powered architecture review
+              Architecture-review portfolio evidence
             </div>
             <h1>ArchGuard</h1>
             <p className="heroLead">
-              AI-powered GitHub PR architecture review bot. Checks pull requests for architecture fitness before drift
-              becomes review debt.
+              A portfolio evidence UI for an AI-powered GitHub PR architecture-review project. It preserves the
+              repository architecture and historical Check Run proof without presenting an offline backend as live.
             </p>
             <div className="heroActions">
-              <a className="primaryLink" href={resolvedRepoUrl} target="_blank" rel="noreferrer">
+              <a className="primaryLink" href={repositoryUrl} target="_blank" rel="noreferrer">
                 <Github aria-hidden="true" size={18} />
                 View GitHub Repo
                 <ExternalLink aria-hidden="true" size={15} />
               </a>
-              <a className="secondaryLink" href={`${apiUrl}/demo`} target="_blank" rel="noreferrer">
-                <Server aria-hidden="true" size={18} />
-                Open Live Demo API
+              <a className="secondaryLink" href={docsUrl} target="_blank" rel="noreferrer">
+                <FileText aria-hidden="true" size={18} />
+                Read Historical Proof
                 <ExternalLink aria-hidden="true" size={15} />
               </a>
             </div>
@@ -194,16 +109,16 @@ function App() {
           <aside className="demoOverview" aria-label="ArchGuard demo overview">
             <div className="overviewHeader">
               <span>{liveDemoName}</span>
-              <strong>Production-style proof surface</strong>
+              <strong>Static portfolio evidence UI</strong>
             </div>
             <div className="metricGrid">
-              <Metric label="Demo mode" value="RAG + mock LLM" />
-              <Metric label="Webhook flow" value="API -> Worker -> Check Run" />
-              <Metric label="Proof set" value="1 drift risk, 4 fits" />
+              <Metric label="Backend state" value="Historical backend offline" />
+              <Metric label="Evidence mode" value="Static proof cases" />
+              <Metric label="Proof set" value="1 drift risk, 1 FIT" />
             </div>
             <div className="overviewNote">
               <CheckCircle2 aria-hidden="true" size={18} />
-              <span>Live proof endpoints are public and safe to inspect.</span>
+              <span>This page makes no runtime requests to the historical API.</span>
             </div>
           </aside>
         </section>
@@ -211,12 +126,13 @@ function App() {
         <section className="section" id="how-it-works">
           <div className="sectionHeader">
             <div>
-              <span className="sectionKicker">Architecture flow</span>
+              <span className="sectionKicker">Implemented architecture</span>
               <h2>From pull request to architecture verdict.</h2>
             </div>
             <p>
-              ArchGuard receives signed GitHub events, queues analysis work, retrieves repository context, and posts an
-              advisory Check Run back to the PR.
+              The project architecture receives signed GitHub events, queues analysis work, retrieves repository
+              context, and posts an advisory Check Run. This static page documents that design; it does not operate
+              the former hosted service.
             </p>
           </div>
           <div className="flow" aria-label="Architecture flow">
@@ -233,46 +149,20 @@ function App() {
           </div>
         </section>
 
-        <section className="section" id="status">
-          <div className="sectionHeader">
-            <div>
-              <span className="sectionKicker">Live API status</span>
-              <h2>Public endpoints, checked from the browser.</h2>
-            </div>
-            <div className="refreshCluster">
-              <p>{apiUrl}</p>
-              <button
-                className="iconButton"
-                type="button"
-                onClick={refresh}
-                disabled={!apiUrl || isRefreshing}
-                title="Refresh API status"
-              >
-                <RefreshCw aria-hidden="true" size={18} />
-              </button>
-            </div>
-          </div>
-          <div className="statusGrid">
-            {results.map((result) => (
-              <StatusCard key={result.path} result={result} apiUrl={apiUrl} />
-            ))}
-          </div>
-        </section>
-
         <section className="section" id="proof">
           <div className="sectionHeader">
             <div>
-              <span className="sectionKicker">Proof PRs</span>
-              <h2>Real GitHub checks, not a static mockup.</h2>
+              <span className="sectionKicker">Historical GitHub proof</span>
+              <h2>Historical Check Run evidence, not a live service claim.</h2>
             </div>
             <p>
-              One proof case demonstrates architecture drift detection. The other shows a verified FIT result from the
-              live demo rollout.
+              These linked pull requests and retained screenshots document earlier project behavior. They do not prove
+              that the retired backend is currently available.
             </p>
           </div>
           <div className="proofGrid">
-            <ProofCard example={withKnownProofUrl(driftExample)} tone="risk" />
-            <ProofCard example={withKnownProofUrl(fitExample)} tone="fit" />
+            <ProofCard example={driftExample} tone="risk" />
+            <ProofCard example={fitExample} tone="fit" />
           </div>
         </section>
 
@@ -284,13 +174,10 @@ function App() {
             </div>
           </div>
           <div className="limitsGrid">
-            <LimitCard title="No SaaS surface" body="No billing, account management, auth, or dashboard is included." />
-            <LimitCard title="Deterministic demo mode" body="Uses demo mode: RAG + mock LLM, so no OpenAI key is required." />
-            <LimitCard title="Safe public proof" body="Public proof endpoints are safe to inspect and do not expose secrets." />
-            <LimitCard
-              title="Webhook boundary"
-              body="The webhook endpoint is for signed GitHub POST requests, not browser GET."
-            />
+            <LimitCard title="Portfolio evidence UI" body="This site is a static portfolio surface, not a running product dashboard." />
+            <LimitCard title="Historical backend offline" body="The former Replit API is offline, and this UI does not call or link to it." />
+            <LimitCard title="Static proof cases" body="The proof cases are historical GitHub links and screenshots, not newly executed checks." />
+            <LimitCard title="Mock and fake providers" body="Mock LLMs and fake embeddings support deterministic local fixtures; they do not demonstrate production inference." />
           </div>
         </section>
       </main>
@@ -301,11 +188,11 @@ function App() {
           <span>Architecture fitness checks for GitHub pull requests.</span>
         </div>
         <div className="footerLinks">
-          <a href={resolvedRepoUrl} target="_blank" rel="noreferrer">
+          <a href={repositoryUrl} target="_blank" rel="noreferrer">
             GitHub repo
           </a>
           <a href={docsUrl} target="_blank" rel="noreferrer">
-            Docs
+            Historical evidence notes
           </a>
         </div>
         <p>Fastify · BullMQ · PostgreSQL/pgvector · Redis · GitHub Checks API</p>
@@ -323,42 +210,7 @@ function Metric({ label, value }: { label: string; value: string }) {
   );
 }
 
-function StatusCard({ result, apiUrl }: { result: EndpointResult; apiUrl: string }) {
-  const Icon = result.state === "ok" ? CheckCircle2 : result.state === "warning" ? AlertTriangle : Activity;
-  const statusLabel = statusText(result.state);
-
-  return (
-    <article className={`statusCard ${result.state}`}>
-      <div className="cardTop">
-        <Icon aria-hidden="true" size={18} />
-        <span>{result.label}</span>
-      </div>
-      <div>
-        <strong>{statusLabel}</strong>
-        <code>{result.path}</code>
-      </div>
-      <p>{result.detail}</p>
-      {result.statusCode ? (
-        <div className="statusCode">
-          <Boxes aria-hidden="true" size={15} />
-          HTTP {result.statusCode}
-        </div>
-      ) : null}
-      <div className="cardMeta">
-        <span>
-          <Clock3 aria-hidden="true" size={13} />
-          {result.checkedAt ? `Last checked ${formatTime(result.checkedAt)}` : "Not checked yet"}
-        </span>
-        <a href={`${apiUrl}${result.path}`} target="_blank" rel="noreferrer">
-          Open
-          <ExternalLink aria-hidden="true" size={13} />
-        </a>
-      </div>
-    </article>
-  );
-}
-
-function ProofCard({ example, tone }: { example: DemoProof["examples"][number]; tone: "risk" | "fit" }) {
+function ProofCard({ example, tone }: { example: ProofExample; tone: "risk" | "fit" }) {
   return (
     <article className={`proofCard ${tone}`}>
       <div className="cardTop">
@@ -367,8 +219,8 @@ function ProofCard({ example, tone }: { example: DemoProof["examples"][number]; 
       </div>
       <strong>{example.verdict}</strong>
       <p>{example.summary}</p>
-      <a href={example.url ?? proofUrls.fit} target="_blank" rel="noreferrer">
-        View proof PR
+      <a href={example.url} target="_blank" rel="noreferrer">
+        View historical proof PR
         <ExternalLink aria-hidden="true" size={13} />
       </a>
     </article>
@@ -383,91 +235,6 @@ function LimitCard({ title, body }: { title: string; body: string }) {
       <p>{body}</p>
     </article>
   );
-}
-
-async function checkEndpoint(
-  apiUrl: string,
-  endpoint: {
-    label: string;
-    path: string;
-  },
-  checkedAt: Date
-): Promise<EndpointResult> {
-  const result = await fetchJson<unknown>(apiUrl, endpoint.path);
-
-  if (!result.ok) {
-    if (endpoint.path === "/ready" && result.statusCode) {
-      return {
-        ...endpoint,
-        state: "warning",
-        statusCode: result.statusCode,
-        detail: `Reachable but not ready (${result.statusCode})`,
-        checkedAt
-      };
-    }
-
-    return {
-      ...endpoint,
-      state: "error",
-      statusCode: result.statusCode,
-      detail: result.statusCode ? `Request returned ${result.statusCode}` : "Could not reach API",
-      checkedAt
-    };
-  }
-
-  return {
-    ...endpoint,
-    state: "ok",
-    statusCode: result.statusCode,
-    detail: "Live endpoint responded successfully",
-    checkedAt
-  };
-}
-
-async function fetchJson<T>(
-  apiUrl: string,
-  path: string
-): Promise<{ ok: true; data: T; statusCode: number } | { ok: false; statusCode?: number }> {
-  try {
-    const response = await fetch(`${apiUrl}${path}`);
-    const data = (await response.json().catch(() => null)) as T;
-
-    if (!response.ok) {
-      return { ok: false, statusCode: response.status };
-    }
-
-    return { ok: true, data, statusCode: response.status };
-  } catch {
-    return { ok: false };
-  }
-}
-
-function normalizeApiUrl(value: string | undefined): string {
-  if (!value?.trim()) return "";
-
-  return value.trim().replace(/\/+$/, "");
-}
-
-function withKnownProofUrl(example: ProofExample): ProofExample {
-  if (example.verdict === "DRIFT_RISK") return { ...example, pr: 1, url: proofUrls.drift };
-  if (example.verdict === "FIT") return { ...example, pr: 8, url: proofUrls.fit };
-  return example;
-}
-
-function statusText(state: CheckState): string {
-  if (state === "ok") return "Healthy";
-  if (state === "warning") return "Warning";
-  if (state === "error") return "Error";
-  if (state === "loading") return "Checking";
-  return "Waiting";
-}
-
-function formatTime(value: Date): string {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  }).format(value);
 }
 
 export default App;

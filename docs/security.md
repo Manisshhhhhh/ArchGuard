@@ -86,8 +86,13 @@ grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.tmp --exc
 If `gitleaks` is installed:
 
 ```bash
-gitleaks detect --source . --redact
+gitleaks detect --config .gitleaks.toml --source . --redact
 ```
+
+`.gitleaks.toml` extends Gitleaks' default rules. Its private-key exceptions are limited to the intentionally generated
+fixture, two specific synthetic unit-test assertions and their generated test output, plus exact historical
+commit-and-path pairs for prior CI-generated-key false positives. It does not disable the private-key rule or
+allowlist a directory.
 
 ## Development Webhook Route
 

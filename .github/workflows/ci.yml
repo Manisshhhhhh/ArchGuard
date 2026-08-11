@@ -66,6 +66,9 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Test demo evidence UI
+        run: pnpm --filter @archguard/demo-web test
+
       - name: Typecheck
         run: pnpm typecheck
 

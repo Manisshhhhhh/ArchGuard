@@ -42,7 +42,7 @@ describe("demo routes", () => {
     expect(response.body).not.toContain("redis://");
   });
 
-  it("GET /demo returns readable HTML overview without secrets", async () => {
+  it("GET /demo states its historical proof and inference limits without secrets", async () => {
     server = await buildTestServer();
 
     const response = await server.inject({
@@ -52,8 +52,11 @@ describe("demo routes", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.headers["content-type"]).toContain("text/html");
-    expect(response.body).toContain("Architecture fitness for real PRs");
+    expect(response.body).toContain("ArchGuard Deployment Verification Surface");
+    expect(response.body).toContain("Historical proof only");
     expect(response.body).toContain("PR #1: DRIFT_RISK");
+    expect(response.body).toContain("PR #8: FIT");
+    expect(response.body).toContain("Mock LLMs and fake embeddings do not prove production inference.");
     expect(response.body).toContain("Analyzer");
     expect(response.body).toContain("rag");
     expect(response.body).not.toContain("webhook-secret");
@@ -94,7 +97,7 @@ describe("demo routes", () => {
     expect(JSON.stringify(response.json())).not.toContain("webhook-secret");
   });
 
-  it("GET /demo/proof returns static proof data and null URLs when env is missing", async () => {
+  it("GET /demo/proof returns only the evidence-backed PR #1 and #8 proof when env is missing", async () => {
     server = await buildTestServer({
       DEMO_REPO_URL: undefined,
       DEMO_DRIFT_PR_URL: undefined,
@@ -109,13 +112,9 @@ describe("demo routes", () => {
     const body = response.json();
     expect(response.statusCode).toBe(200);
     expect(body.repositoryUrl).toBeNull();
-    expect(body.examples).toHaveLength(5);
-    expect(body.examples.map((example: { verdict: string }) => example.verdict)).toEqual([
-      "DRIFT_RISK",
-      "FIT",
-      "FIT",
-      "FIT",
-      "FIT"
+    expect(body.examples).toEqual([
+      expect.objectContaining({ pr: 1, verdict: "DRIFT_RISK", url: null }),
+      expect.objectContaining({ pr: 8, verdict: "FIT", url: null })
     ]);
     expect(body.examples[0].url).toBeNull();
     expect(body.examples[1].url).toBeNull();

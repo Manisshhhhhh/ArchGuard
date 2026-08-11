@@ -1,19 +1,12 @@
-# ArchGuard Live Demo
+# ArchGuard Portfolio Evidence
 
-ArchGuard is live as a public demo with the API and worker on Replit and the demo UI on Vercel.
+The committed source is a static portfolio evidence UI. The former hosted API and worker are offline; no public
+backend endpoint is represented as live or used by the source UI. The hosted URL below currently serves a pre-change
+deployment and must not be used as proof that this source revision is live.
 
-- Live UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
-- Live API: [https://arch-guard-1--manishsoni-dev.replit.app](https://arch-guard-1--manishsoni-dev.replit.app)
-- Proof pack: [docs/live-demo-proof.md](docs/live-demo-proof.md)
-- FIT proof PR: [PR #8](https://github.com/manishsoni-dev/ArchGuard/pull/8)
-- DRIFT_RISK proof PR: [PR #1](https://github.com/manishsoni-dev/ArchGuard/pull/1)
+- Hosted evidence URL (currently pre-change): [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
+- Historical proof pack: [docs/live-demo-proof.md](docs/live-demo-proof.md)
+- Historical FIT proof: [PR #8](https://github.com/manishsoni-dev/ArchGuard/pull/8)
+- Historical DRIFT_RISK proof: [PR #1](https://github.com/manishsoni-dev/ArchGuard/pull/1)
 
-The public proof endpoints are safe to inspect:
-
-- `/health`
-- `/ready`
-- `/version`
-- `/demo/status`
-- `/demo/proof`
-
-Do not test `/webhooks/github` with a browser `GET`; that route is for signed GitHub `POST` deliveries.
+The retained GitHub links and screenshots document prior Check Run behavior. They are not live runtime-health proof.

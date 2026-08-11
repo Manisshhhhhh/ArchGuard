@@ -15,7 +15,7 @@ describe("demo check", () => {
 
   it("returns friendly placeholder errors", () => {
     try {
-      parseDemoCheckArgs(["apiUrl=https://YOUR-REPLIT-API-URL"]);
+      parseDemoCheckArgs(["apiUrl=https://YOUR-HOSTED-API-URL"]);
       throw new Error("expected parse to fail");
     } catch (error) {
       expect(error).toBeInstanceOf(CliArgumentError);
