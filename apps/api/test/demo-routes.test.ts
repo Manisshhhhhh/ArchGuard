@@ -97,7 +97,7 @@ describe("demo routes", () => {
     expect(JSON.stringify(response.json())).not.toContain("webhook-secret");
   });
 
-  it("GET /demo/proof returns static proof data and null URLs when env is missing", async () => {
+  it("GET /demo/proof returns only the evidence-backed PR #1 and #8 proof when env is missing", async () => {
     server = await buildTestServer({
       DEMO_REPO_URL: undefined,
       DEMO_DRIFT_PR_URL: undefined,
@@ -112,13 +112,9 @@ describe("demo routes", () => {
     const body = response.json();
     expect(response.statusCode).toBe(200);
     expect(body.repositoryUrl).toBeNull();
-    expect(body.examples).toHaveLength(5);
-    expect(body.examples.map((example: { verdict: string }) => example.verdict)).toEqual([
-      "DRIFT_RISK",
-      "FIT",
-      "FIT",
-      "FIT",
-      "FIT"
+    expect(body.examples).toEqual([
+      expect.objectContaining({ pr: 1, verdict: "DRIFT_RISK", url: null }),
+      expect.objectContaining({ pr: 8, verdict: "FIT", url: null })
     ]);
     expect(body.examples[0].url).toBeNull();
     expect(body.examples[1].url).toBeNull();

@@ -76,24 +76,6 @@ export async function registerDemoRoutes(fastify: FastifyInstance, options: Regi
         verdict: "FIT",
         url: options.env.DEMO_FIT_PR_URL ?? null,
         summary: "Architecture fit confirmed during the historical hosted-demo verification."
-      },
-      {
-        pr: 3,
-        verdict: "FIT",
-        url: null,
-        summary: "Architecture fit confirmed for a follow-up demo PR."
-      },
-      {
-        pr: 4,
-        verdict: "FIT",
-        url: null,
-        summary: "Architecture fit confirmed for a follow-up demo PR."
-      },
-      {
-        pr: 5,
-        verdict: "FIT",
-        url: null,
-        summary: "Architecture fit confirmed for a follow-up demo PR."
       }
     ],
     note: demoNote
