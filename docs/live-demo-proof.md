@@ -7,7 +7,7 @@ evidence. It must not be read as current production, inference, or service-healt
 
 ## Retained Evidence
 
-- Portfolio UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
+- Hosted evidence URL (currently serves a pre-change deployment): [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
 - Repository: [https://github.com/manishsoni-dev/ArchGuard](https://github.com/manishsoni-dev/ArchGuard)
 - Historical check capture: API health, readiness, version, demo status, demo proof, and the UI all returned `ok` on
   June 6, 2026.

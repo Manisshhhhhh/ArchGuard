@@ -1,7 +1,60 @@
 title = "ArchGuard Gitleaks configuration"
 
-[allowlist]
+[extend]
+useDefault = true
+
+[[allowlists]]
 description = "Allow only the intentionally generated test-only GitHub App PEM fixture."
+targetRules = ["private-key"]
 paths = [
   '''^apps/api/test/fixtures/test-private-key\.pem$'''
+]
+
+[[allowlists]]
+description = "Allow synthetic private-key assertion literals only in the health-route unit test."
+targetRules = ["private-key"]
+condition = "AND"
+paths = [
+  '''^apps/api/test/health\.test\.ts$'''
+]
+regexTarget = "line"
+regexes = [
+  '''GITHUB_PRIVATE_KEY'''
+]
+
+[[allowlists]]
+description = "Allow the synthetic escaped-PEM assertion only in the interactive setup unit test."
+targetRules = ["private-key"]
+condition = "AND"
+paths = [
+  '''^apps/api/test/setup-github-app-interactive\.test\.ts$'''
+]
+regexTarget = "line"
+regexes = [
+  '''GITHUB_PRIVATE_KEY'''
+]
+
+[[allowlists]]
+description = "Allow only the generated JavaScript copies of the two synthetic unit-test assertions."
+targetRules = ["private-key"]
+condition = "AND"
+paths = [
+  '''^apps/api/dist/test/health\.test\.js$''',
+  '''^apps/api/dist/test/setup-github-app-interactive\.test\.js$'''
+]
+regexTarget = "line"
+regexes = [
+  '''GITHUB_PRIVATE_KEY'''
+]
+
+[[allowlists]]
+description = "Allow only the historical CI generated-key false positives in their original workflow revisions."
+targetRules = ["private-key"]
+condition = "AND"
+commits = [
+  "a90db338faa9b25ff04ca2d60aaa4088a552107a",
+  "b3023d5c6ea738e3e4a6eef0ae30977446412717"
+]
+paths = [
+  '''^\.github/workflows/ci\.yml$'''
 ]

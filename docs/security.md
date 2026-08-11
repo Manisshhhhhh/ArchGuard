@@ -89,8 +89,10 @@ If `gitleaks` is installed:
 gitleaks detect --config .gitleaks.toml --source . --redact
 ```
 
-`.gitleaks.toml` has one path-anchored allowlist entry for the intentionally generated test fixture named above. It
-does not allowlist directories, rules, commits, or any other key location.
+`.gitleaks.toml` extends Gitleaks' default rules. Its private-key exceptions are limited to the intentionally generated
+fixture, two specific synthetic unit-test assertions and their generated test output, plus exact historical
+commit-and-path pairs for prior CI-generated-key false positives. It does not disable the private-key rule or
+allowlist a directory.
 
 ## Development Webhook Route
 

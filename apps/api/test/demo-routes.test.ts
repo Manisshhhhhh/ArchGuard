@@ -42,7 +42,7 @@ describe("demo routes", () => {
     expect(response.body).not.toContain("redis://");
   });
 
-  it("GET /demo returns readable HTML overview without secrets", async () => {
+  it("GET /demo states its historical proof and inference limits without secrets", async () => {
     server = await buildTestServer();
 
     const response = await server.inject({
@@ -52,8 +52,11 @@ describe("demo routes", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.headers["content-type"]).toContain("text/html");
-    expect(response.body).toContain("Architecture fitness for real PRs");
+    expect(response.body).toContain("ArchGuard Deployment Verification Surface");
+    expect(response.body).toContain("Historical proof only");
     expect(response.body).toContain("PR #1: DRIFT_RISK");
+    expect(response.body).toContain("PR #8: FIT");
+    expect(response.body).toContain("Mock LLMs and fake embeddings do not prove production inference.");
     expect(response.body).toContain("Analyzer");
     expect(response.body).toContain("rag");
     expect(response.body).not.toContain("webhook-secret");

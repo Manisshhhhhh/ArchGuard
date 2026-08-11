@@ -12,7 +12,7 @@ ArchGuard is a GitHub App that reviews pull requests against repository-specific
 
 ## Links
 
-- Portfolio evidence UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
+- Hosted evidence URL (currently pre-change): [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
 - GitHub repository: [https://github.com/manishsoni-dev/ArchGuard](https://github.com/manishsoni-dev/ArchGuard)
 - Historical proof pack: [docs/live-demo-proof.md](live-demo-proof.md)
 
@@ -20,7 +20,7 @@ ArchGuard is a GitHub App that reviews pull requests against repository-specific
 
 - PR #8 is retained historical `FIT` Check Run evidence from the former hosted demo.
 - PR #1 is retained historical `DRIFT_RISK` evidence for a frontend-to-database boundary violation.
-- The portfolio UI is static: its proof cases are historical links and screenshots, not current runtime checks.
+- The committed portfolio source is static: its proof cases are historical links and screenshots, not current runtime checks. The hosted URL currently serves a pre-change deployment and should not be presented as this revision until redeployed and reverified.
 
 ## Tags
 

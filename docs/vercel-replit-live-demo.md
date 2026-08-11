@@ -2,9 +2,9 @@
 
 Status: retired. This document records the former hosted-demo topology only; it is not a deployment guide.
 
-The prior setup used a Vercel UI with a separately hosted API and worker. That backend is offline. The Vercel source in
-this repository is now a static portfolio evidence UI and must not be configured with an API URL or presented as a
-live inference service.
+The prior setup used a Vercel UI with a separately hosted API and worker. That backend is offline. The committed Vercel
+source in this repository is a static portfolio evidence UI and must not be configured with an API URL or presented as
+a live inference service. The hosted Vercel deployment may lag that source until a fresh deployment is verified.
 
 Retained historical evidence:
 

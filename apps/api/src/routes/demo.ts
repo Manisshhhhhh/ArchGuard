@@ -137,10 +137,10 @@ function renderHomeHtml(env: DemoRouteEnv): string {
 
 function renderDemoHtml(env: DemoRouteEnv): string {
   return renderPage({
-    title: "ArchGuard Live Demo",
-    eyebrow: "Live demo",
-    heading: "Architecture fitness for real PRs",
-    lead: "ArchGuard receives GitHub PR webhooks, queues analysis work, retrieves repository architecture context, and posts a typed Check Run verdict.",
+    title: "ArchGuard Deployment Verification Surface",
+    eyebrow: "Deployment verification",
+    heading: "ArchGuard Deployment Verification Surface",
+    lead: "This API surface supports local or newly deployed verification. Historical proof does not establish that a hosted service is currently available.",
     body: [
       `<section><h2>Demo mode</h2>${detailList([
         ["Analyzer", env.ANALYZER_PROVIDER],
@@ -148,7 +148,8 @@ function renderDemoHtml(env: DemoRouteEnv): string {
         ["Embeddings", env.EMBEDDING_PROVIDER],
         ["Repository", env.DEMO_REPO_URL ?? "Not configured"]
       ])}</section>`,
-      `<section><h2>Proof</h2><ul><li>PR #1: DRIFT_RISK</li><li>PR #2: FIT</li><li>PR #3: FIT</li><li>PR #4: FIT</li><li>PR #5: FIT</li></ul></section>`,
+      `<section><h2>Historical proof only</h2><ul><li>PR #1: DRIFT_RISK</li><li>PR #8: FIT</li></ul></section>`,
+      `<p>Mock LLMs and fake embeddings do not prove production inference.</p>`,
       linkList(endpointLinks),
       `<p class="note">${escapeHtml(demoNote)}</p>`
     ]

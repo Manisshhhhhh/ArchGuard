@@ -40,11 +40,11 @@ The result is advisory in this local MVP, but the workflow is real: GitHub webho
 
 ## Portfolio Evidence
 
-The public Vercel page is a static portfolio evidence UI. The former hosted backend is offline, so the page does not
-make runtime API requests or present an API as live. The repository and retained proof below document the historical
-implementation and Check Run results.
+The committed Vercel source is a static portfolio evidence UI. The former hosted backend is offline, so the source
+does not make runtime API requests or present an API as live. The hosted Vercel URL below currently serves a
+pre-change deployment and must not be treated as evidence for this commit until a fresh deployment is verified.
 
-- Portfolio UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
+- Hosted evidence URL (currently pre-change): [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
 - Historical proof pack: [docs/live-demo-proof.md](docs/live-demo-proof.md)
 - LinkedIn summary: [docs/linkedin-project-summary.md](docs/linkedin-project-summary.md)
 - Portfolio card copy: [docs/portfolio-card.md](docs/portfolio-card.md)
