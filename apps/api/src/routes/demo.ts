@@ -75,7 +75,7 @@ export async function registerDemoRoutes(fastify: FastifyInstance, options: Regi
         pr: 8,
         verdict: "FIT",
         url: options.env.DEMO_FIT_PR_URL ?? null,
-        summary: "Architecture fit confirmed for the live Replit and Vercel demo verification."
+        summary: "Architecture fit confirmed during the historical hosted-demo verification."
       },
       {
         pr: 3,

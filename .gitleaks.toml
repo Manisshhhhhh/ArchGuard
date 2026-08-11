@@ -1,0 +1,7 @@
+title = "ArchGuard Gitleaks configuration"
+
+[allowlist]
+description = "Allow only the intentionally generated test-only GitHub App PEM fixture."
+paths = [
+  '''^apps/api/test/fixtures/test-private-key\.pem$'''
+]

@@ -11,7 +11,8 @@ ArchGuard runs as four services:
 - Postgres with pgvector: persistence for webhook events, repositories, chunks, embeddings, analysis runs, and findings.
 - Redis: BullMQ queue backend.
 
-For the public portfolio/demo split where Vercel hosts the static UI and Replit runs the API plus worker, see [Vercel + Replit Live Demo](vercel-replit-live-demo.md). Do not deploy the API/worker runtime to Vercel.
+The public Vercel page is now a static portfolio evidence UI; it does not host the API or worker. Do not deploy the
+API/worker runtime to Vercel.
 
 ```mermaid
 flowchart LR

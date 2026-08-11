@@ -12,24 +12,23 @@ ArchGuard is a GitHub App that reviews pull requests against repository-specific
 
 ## Links
 
-- Live demo UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
-- Replit API proof: [https://arch-guard-1--manishsoni-dev.replit.app](https://arch-guard-1--manishsoni-dev.replit.app)
+- Portfolio evidence UI: [https://demo-web-delta-five.vercel.app](https://demo-web-delta-five.vercel.app)
 - GitHub repository: [https://github.com/manishsoni-dev/ArchGuard](https://github.com/manishsoni-dev/ArchGuard)
-- Proof pack: [docs/live-demo-proof.md](live-demo-proof.md)
+- Historical proof pack: [docs/live-demo-proof.md](live-demo-proof.md)
 
 ## Proof Points
 
-- PR #8 passed with `FIT` after the public Replit and Vercel demo passed verification.
-- PR #1 remains available as a `DRIFT_RISK` proof case for a frontend-to-database boundary violation.
-- Public demo check verifies `/health`, `/ready`, `/version`, `/demo/status`, `/demo/proof`, and the Vercel UI.
+- PR #8 is retained historical `FIT` Check Run evidence from the former hosted demo.
+- PR #1 is retained historical `DRIFT_RISK` evidence for a frontend-to-database boundary violation.
+- The portfolio UI is static: its proof cases are historical links and screenshots, not current runtime checks.
 
 ## Tags
 
-TypeScript, Fastify, Prisma, Postgres, pgvector, Redis, BullMQ, GitHub Apps, Octokit, RAG, Replit, Vercel
+TypeScript, Fastify, Prisma, Postgres, pgvector, Redis, BullMQ, GitHub Apps, Octokit, RAG, Vercel
 
 ## CTA Labels
 
-- View live demo
-- See API proof
-- Read proof pack
+- View portfolio evidence
+- Read historical proof
+- View GitHub proof
 - View source

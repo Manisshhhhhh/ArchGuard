@@ -86,8 +86,11 @@ grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.tmp --exc
 If `gitleaks` is installed:
 
 ```bash
-gitleaks detect --source . --redact
+gitleaks detect --config .gitleaks.toml --source . --redact
 ```
+
+`.gitleaks.toml` has one path-anchored allowlist entry for the intentionally generated test fixture named above. It
+does not allowlist directories, rules, commits, or any other key location.
 
 ## Development Webhook Route
 
